@@ -1,0 +1,11 @@
+methodsecurity:
+  securitymap:
+    -
+     Identifier: GET_TOKEN_DETAILS
+     rolesallowed: 
+      USER,
+      ADMIN
+    -
+     Identifier: GET_TOKEN_DETAILS_TEST
+     rolesallowed: 
+       USER

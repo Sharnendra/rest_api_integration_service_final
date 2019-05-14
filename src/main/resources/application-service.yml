@@ -1,0 +1,42 @@
+service:
+  serviceTypeHeader : service_type #service key
+  servicemap:
+    -
+     servicename: hello #service value
+     commonConfigurations:
+       methodType : GET/POST/PUT/DELETE
+       endpoint: localhost:8080/hello
+       allowedQueryParams: 
+        user,
+        user1255
+       inputSchemaFile: data.json
+       outputSchemaFile: output-schema
+       inputValidationRequired : true
+       outputValidationRequired : true
+       requiredHeaders : [sharenendsa, vasodsdf]
+       securityHeaders:
+        -
+          headername : app_id
+          headervalue: dummyValue
+        -
+          headername : app_id
+          headervalue: dummyValue
+    -
+     servicename: hello2
+     commonConfigurations:
+       methodType : GET/POST/PUT/DELETE
+       endpoint: localhost:8080/hello2
+       allowedQueryParams: 
+         user2
+       inputSchemaFile: data.json
+       outputSchemaFile:
+       inputValidationRequired : true
+       outputValidationRequired : true
+       requiredHeaders : []
+       securityHeaders:
+        -
+          headername : app_id
+          headervalue: dummyValue
+        -
+          headername : app_id
+          headervalue: dummyValue
