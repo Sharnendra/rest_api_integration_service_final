@@ -7,14 +7,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.service.integration.config.ConfigMethodSecurity;
-import com.service.integration.constraint.Secured;
+import com.service.integration.rbac.Secured;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -27,36 +27,28 @@ public class ServiceAspect {
 	private ConfigMethodSecurity configMethodSecurity;
 
 	//@After(value = "execution(* com.service.security.jwtsecurity.aspect.EmployeeService.*(..)) and args(name,empId,ls) && @annotation(com.service.security.jwtsecurity.constraint.Roles)")
-	@After(value = "execution(* com.service.integration.controller.*.*(..)) and args(httpServletRequest) && @annotation(com.service.integration.constraint.Secured)")
+	@Before(value = "execution(* com.service.integration.controller.*.*(..)) and args(httpServletRequest) && @annotation(com.service.integration.rbac.Secured)")
 	public void afterAdvice(JoinPoint joinPoint,HttpServletRequest httpServletRequest) {
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         if (method.isAnnotationPresent(Secured.class)) 
         {
         	Annotation annotation = method.getAnnotation(Secured.class);
-            Secured roles = (Secured) annotation;
+            Secured secured = (Secured) annotation;
             
-        	if(configMethodSecurity.getRoleBasedSecurity().containsKey(roles.indentify().trim()))
+        	if(configMethodSecurity.getRoleBasedSecurity().containsKey(secured.indentify().trim()))
     		{
-        		Boolean authorize= false;
         		String header = httpServletRequest.getHeader("Authorization");
         		Claims body = Jwts.parser()
                         .setSigningKey("#21@365")
                         .parseClaimsJws(header)
                         .getBody();
         		
-        		List<String> identifier=configMethodSecurity.getRoleBasedSecurity().get(roles.indentify().trim());
-        		for (String tag : identifier) 
-        		{ 
-        			if(tag.equalsIgnoreCase((String)body.get("role")))
-        			{
-        				authorize=true;
-        			} 
-        		}
-        		if(!authorize)
-        		{
-        			throw new RuntimeException("USER IS NOT AUTHORIZED TO ACCESS THIS METHOD!!");
-        		}
+        		List<String> identifier=configMethodSecurity.getRoleBasedSecurity().get(secured.indentify().trim());
+    			if(identifier.stream().filter(tag->tag.equalsIgnoreCase((String)body.get("role"))).count()<=0)
+    			{
+    				throw new RuntimeException("USER IS NOT AUTHORIZED TO ACCESS THIS METHOD!!");
+    			} 
     		}
         	else
         	{

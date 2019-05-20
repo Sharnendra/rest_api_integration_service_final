@@ -5,24 +5,23 @@ import java.util.List;
 
 public class MethodAuthorization {
 
-	private String Identifier;
-	private List<String> rolesallowed=new ArrayList<String>();
-	
-	public String getIdentifier() {
-		return Identifier;
+	private String serviceId;
+	private List<String> rolesAllowed=new ArrayList<String>();
+	public String getServiceId() {
+		return serviceId;
 	}
-	public void setIdentifier(String identifier) {
-		Identifier = identifier;
+	public void setServiceId(String serviceId) {
+		this.serviceId = serviceId;
 	}
-	public List<String> getRolesallowed() {
-		return rolesallowed;
+	public List<String> getRolesAllowed() {
+		return rolesAllowed;
 	}
-	public void setRolesallowed(List<String> rolesallowed) {
-		this.rolesallowed = rolesallowed;
+	public void setRolesAllowed(List<String> rolesAllowed) {
+		this.rolesAllowed = rolesAllowed;
 	}
-	
 	@Override
 	public String toString() {
-		return "MethodAuthorization [Identifier=" + Identifier + ", rolesallowed=" + rolesallowed + "]";
+		return "MethodAuthorization [serviceId=" + serviceId + ", rolesAllowed=" + rolesAllowed + "]";
 	}
+	
 }

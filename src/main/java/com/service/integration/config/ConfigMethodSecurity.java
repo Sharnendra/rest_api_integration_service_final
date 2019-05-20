@@ -49,7 +49,7 @@ public class ConfigMethodSecurity implements InitializingBean{
 		
 		setRoleBasedSecurity(securitymap.stream()
 						.collect(
-						   Collectors.toMap(MethodAuthorization::getIdentifier,MethodAuthorization::getRolesallowed)
+						   Collectors.toMap(MethodAuthorization::getServiceId,MethodAuthorization::getRolesAllowed)
 						));
 	}
 }

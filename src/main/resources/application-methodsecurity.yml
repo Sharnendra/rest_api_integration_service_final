@@ -1,11 +1,11 @@
 methodsecurity:
   securitymap:
     -
-     Identifier: GET_TOKEN_DETAILS
-     rolesallowed: 
+     serviceId: GET_TOKEN_DETAILS
+     rolesAllowed: 
       USER,
       ADMIN
     -
-     Identifier: GET_TOKEN_DETAILS_TEST
-     rolesallowed: 
+     serviceId: GET_TOKEN_DETAILS_TEST
+     rolesAllowed: 
        USER
